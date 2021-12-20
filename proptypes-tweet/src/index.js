@@ -4,47 +4,33 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import "./index.css";
 
-const testTweet = {
-  message: "Something about cats.",
-  gravatar: "xyz",
-  author: {
-    handle: "catperson",
-    name: "IAMA Cat Person",
-  },
-  likes: 2,
-  retweets: 17,
-  timestamp: "2016-07-30 21:24:37",
-};
+function TweetList({ tweets }) {
+  return tweets.map((tweet) => {
+    return <Tweet tweet={tweet} />;
+  });
+}
 
 function Tweet({ tweet }) {
   return (
-    <div className="tweet">
-      <Avatar hash={tweet.gravatar} />
-      <div className="content">
-        <Author author={tweet.author} />
-        <Time time={tweet.timestamp} />
-        <Message text={tweet.message} />
-        <div className="buttons">
-          <ReplyButton />
-          <RetweetButton count={tweet.retweets} />
-          <LikeButton count={tweet.likes} />
-          <MoreOptionsButton />
+    <>
+      <div className="tweet">
+        <Avatar hash={tweet.gravatar} />
+        <div className="content">
+          <Author author={tweet.author} />
+          <Time time={tweet.timestamp} />
+          <Message text={tweet.message} />
+          <div className="buttons">
+            <ReplyButton />
+            <RetweetButton count={tweet.retweets} />
+            <LikeButton count={tweet.likes} />
+            <MoreOptionsButton />
+          </div>
         </div>
       </div>
-    </div>
+      <br />
+    </>
   );
 }
-
-Tweet.propTypes = {
-  tweet: PropTypes.shape({
-    message: PropTypes.string.isRequired,
-    gravatar: PropTypes.string.isRequired,
-    author: PropTypes.object.isRequired,
-    likes: PropTypes.number,
-    retweets: PropTypes.number,
-    timestamp: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 function Avatar({ hash }) {
   const url = `https://www.gravatar.com/avatar/${hash}`;
@@ -129,4 +115,43 @@ const MoreOptionsButton = () => (
   <i className="fa fa-ellipsis-h more-options-button" />
 );
 
-ReactDOM.render(<Tweet tweet={testTweet} />, document.querySelector("#root"));
+const tweetsData = [
+  {
+    message: "Something about cats.",
+    gravatar: "xyz",
+    author: {
+      handle: "catperson",
+      name: "IAMA Cat Person",
+    },
+    likes: 2,
+    retweets: 17,
+    timestamp: "2016-07-30 21:24:37",
+  },
+  {
+    message: "Something about dogs.",
+    gravatar: "xyz",
+    author: {
+      handle: "Alesvoy",
+      name: "I like dogs, I am a dog Person",
+    },
+    likes: 32,
+    retweets: 17,
+    timestamp: "2016-07-30 21:24:37",
+  },
+  {
+    message: "I like rap.",
+    gravatar: "xyz",
+    author: {
+      handle: "Drake",
+      name: "Aubrey Drake Graham",
+    },
+    likes: 234400,
+    retweets: 17000,
+    timestamp: "2016-07-30 21:24:37",
+  },
+];
+
+ReactDOM.render(
+  <TweetList tweets={tweetsData} />,
+  document.querySelector("#root")
+);
